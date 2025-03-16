@@ -4,6 +4,20 @@ from django.db import models
 from django.utils import timezone
 
 
+class Watch(models.Model):
+    price = models.FloatField(null=True, blank=True)  # ✅ Nullable
+    description = models.TextField(null=True, blank=True)  # ✅ Nullable
+    image = models.ImageField(
+        upload_to="watch_images", null=True, blank=True
+    )  # ✅ Nullable
+    name = models.TextField(null=True, blank=True)  # ✅ Nullable
+    brand = models.TextField(null=True, blank=True)  # ✅ Nullable
+    year = models.PositiveIntegerField(null=True, blank=True)  # ✅ Nullable
+
+    def __str__(self):
+        return f"{self.name}, {self.brand}, {self.year}"
+
+
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published")

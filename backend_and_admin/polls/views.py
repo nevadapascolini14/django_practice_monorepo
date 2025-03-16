@@ -4,6 +4,11 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Watch
+from .serializers import WatchSerializer
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -25,13 +30,16 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = "polls/results.html"
 
-
 @api_view(['GET'])
 def get_data(request):
     data = {"message": "Hello from Django!"}
     return Response(data)
 
-
+@api_view(['GET'])
+def get_watches(request):
+    watches = Watch.objects.all()
+    serializer = WatchSerializer(watches, many=True)  # Converts to JSON
+    return Response(serializer.data)  # Returns JSON response
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
